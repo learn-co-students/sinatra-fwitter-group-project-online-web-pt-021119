@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    if !params["username"].empty? && !params["password"].empty? && !params["email"].empty? && !logged_in?
+    if !params[:username].empty? && !params[:password].empty? && !params[:email].empty? && !logged_in? #where originally using parama[:user][:username] but tests wouldn't pass
       user = User.create(params)
       session[:user_id] = user.id
       redirect '/tweets'
@@ -19,14 +19,18 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    erb :'/users/login'
+    if logged_in?
+      redirect '/tweets'
+    else
+      erb :'/users/login'
+    end
   end
 
   post '/login' do
-    if !params[:username].empty? && !params["password"].empty?
-      user = User.find_by(username: params["username"])
+    if !params[:user][:username].empty? && !params[:user][:password].empty?
+      user = User.find_by(username: params[:user][:username])
       if user
-        if user.authenticate(params["password"])
+        if user.authenticate(params[:user][:password])
           session[:user_id] = user.id
           redirect '/tweets'
         end
@@ -41,7 +45,7 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    session.clear
-    redirect '/login'
+      session.clear
+      redirect '/login'
   end
 end
