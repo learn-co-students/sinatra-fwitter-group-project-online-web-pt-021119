@@ -1,0 +1,12 @@
+<h1>Welcome, This is the Tweets Index.</h1>
+<h2>You are going to love this tweets!</h2>
+
+<%@tweets.each do |tweet|%>
+  <h4>User: <%=tweet.user.username if tweet.user%></h4>
+  <h4>Tweet:</h4>
+  <p><%=tweet.content%></p>
+<%end%>
+
+<form action="/logout" method="POST">
+  <input type="submit" value="Logout" id="submit">
+</form>

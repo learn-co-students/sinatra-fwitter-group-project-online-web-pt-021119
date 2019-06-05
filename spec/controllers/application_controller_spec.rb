@@ -78,10 +78,10 @@ describe ApplicationController do
 
     it 'loads the tweets index after login' do
       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-      params = {
+      params = {:user => {
         :username => "becky567",
         :password => "kittens"
-      }
+      }}
       post '/login', params
       expect(last_response.status).to eq(302)
       follow_redirect!
@@ -91,10 +91,10 @@ describe ApplicationController do
 
     it 'does not let user view login page if already logged in' do
       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
-      params = {
+      params = {:user => {
         :username => "becky567",
         :password => "kittens"
-      }
+      }}
       post '/login', params
       get '/login'
       expect(last_response.location).to include("/tweets")
@@ -105,10 +105,10 @@ describe ApplicationController do
     it "lets a user logout if they are already logged in" do
       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
 
-      params = {
+      params = {:user => {
         :username => "becky567",
         :password => "kittens"
-      }
+      }}
       post '/login', params
       get '/logout'
       expect(last_response.location).to include("/login")
