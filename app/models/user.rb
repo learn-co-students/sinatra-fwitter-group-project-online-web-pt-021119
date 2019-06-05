@@ -3,6 +3,10 @@ class User < ActiveRecord::Base
   has_secure_password
 
   def slug
-    self.id
+    self.username.gsub(" ", "-")
+  end
+
+  def self.find_by_slug(slug)
+    self.find_by(:username => slug.gsub("-", " "))
   end
 end
