@@ -1,4 +1,4 @@
-class CreateTweets < ActiveRecord::Base
+class CreateTweetsTable < ActiveRecord::Migration
   def change
     create_table :tweets do |x|
       x.text :content
