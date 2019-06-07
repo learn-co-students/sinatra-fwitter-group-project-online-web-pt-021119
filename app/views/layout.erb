@@ -3,13 +3,14 @@
   <head>
     <title>Fwitter</title>
   </head>
+  <style>
+	div form {text-align: center;}
+	input{font-size:24px;text-align: center;}
+	h2.form_title {text-align: center;}
+  </style>
   <body>
-
-    <div class="container">
-      <h1>Welcome to Fwitter!</h1>
-      <h2>This is located in layout.erb!</h2>
-      <h2>Don't forget to <strong>yield</strong> your views!</h2>
-    </div>
-
+	<h5>Fwitter, version 1.1</h5>
+	<p><a href="/logout">logout</a></p>
+	<%=yield%>
   </body>
 </html>
