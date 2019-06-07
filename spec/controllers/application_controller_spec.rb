@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'pry'
 
 describe ApplicationController do
 
@@ -58,13 +57,16 @@ describe ApplicationController do
       expect(last_response.location).to include('/signup')
     end
 
-    it 'creates a new user and logs them in on valid submission and does not let a logged in user view the signup page' do
+    it 'does not let a logged in user view the signup page' do
+      user = User.create(:username => "skittles123", :email => "skittles@aol.com", :password => "rainbows")
       params = {
         :username => "skittles123",
         :email => "skittles@aol.com",
         :password => "rainbows"
       }
       post '/signup', params
+      session = {}
+      session[:user_id] = user.id
       get '/signup'
       expect(last_response.location).to include('/tweets')
     end
@@ -91,11 +93,14 @@ describe ApplicationController do
 
     it 'does not let user view login page if already logged in' do
       user = User.create(:username => "becky567", :email => "starz@aol.com", :password => "kittens")
+
       params = {
         :username => "becky567",
         :password => "kittens"
       }
       post '/login', params
+      session = {}
+      session[:user_id] = user.id
       get '/login'
       expect(last_response.location).to include("/tweets")
     end
@@ -320,6 +325,8 @@ describe ApplicationController do
         fill_in(:username, :with => "becky567")
         fill_in(:password, :with => "kittens")
         click_button 'submit'
+        session = {}
+        session[:user_id] = user1.id
         visit "/tweets/#{tweet2.id}/edit"
         expect(page.current_path).to include('/tweets')
       end
@@ -361,7 +368,7 @@ describe ApplicationController do
     end
 
     context "logged out" do
-      it 'does not load -- instead redirects to login' do
+      it 'does not load let user view tweet edit form if not logged in' do
         get '/tweets/1/edit'
         expect(last_response.location).to include("/login")
       end
