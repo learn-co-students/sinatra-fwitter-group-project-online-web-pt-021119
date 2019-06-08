@@ -1,37 +1,56 @@
 class UsersController < ApplicationController
 
-  # GET: /users
-  get "/users" do
-    erb :"/users/index.html"
+  def logged_in?
+    true if !params[:user_id].nil?
   end
 
-  # GET: /users/new
-  get "/users/new" do
-    erb :"/users/new.html"
+  def current_user
+    User.find(params[:user_id])
   end
 
-  # POST: /users
-  post "/users" do
-    redirect "/users"
+  get "/signup" do
+    erb :"/users/create_user"
+  end
+
+  post '/signup' do
+    user = User.new(:username => params[:username], :password => params[:password])
+
+    if user.save
+      redirect "/login"
+    else
+      redirect "/signup"
+    end
+  end
+
+  get '/login' do
+    erb :"/users/login"
+  end
+
+  post '/login' do
+    user = User.find_by(:username => params[:username])
+    if user && user.authenticate(params[:password])
+      session[:user_id] = user.id
+      redirect "/users/#{user.id}"
+    else
+      redirect "/login"
+    end
+  end
+
+  get '/logout' do
+    session[:user_id].clear
+    redirect "/"
   end
 
   # GET: /users/5
   get "/users/:id" do
-    erb :"/users/show.html"
-  end
-
-  # GET: /users/5/edit
-  get "/users/:id/edit" do
-    erb :"/users/edit.html"
-  end
-
-  # PATCH: /users/5
-  patch "/users/:id" do
-    redirect "/users/:id"
+    @user = User.find(params[:id])
+    erb :"/users/show"
   end
 
   # DELETE: /users/5/delete
   delete "/users/:id/delete" do
-    redirect "/users"
+    @user = User.find(params[:id])
+    @user.destroy
+    redirect "/"
   end
 end

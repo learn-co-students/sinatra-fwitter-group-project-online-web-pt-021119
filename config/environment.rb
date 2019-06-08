@@ -9,3 +9,6 @@ ActiveRecord::Base.establish_connection(
 )
 
 require_all 'app'
+
+require_relative '../app/controllers/tweets_controller'
+require_relative '../app/controllers/users_controller'

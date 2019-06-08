@@ -2,27 +2,28 @@ class TweetsController < ApplicationController
 
   # GET: /tweets
   get "/tweets" do
-    erb :"/tweets/index.html"
+    erb :"/tweets/tweets"
   end
 
   # GET: /tweets/new
   get "/tweets/new" do
-    erb :"/tweets/new.html"
+    erb :"/tweets/new"
   end
 
   # POST: /tweets
   post "/tweets" do
-    redirect "/tweets"
+    @tweet = Tweet.create(params[:tweet])
+    redirect "/tweets/:#{tweet.id}"
   end
 
   # GET: /tweets/5
   get "/tweets/:id" do
-    erb :"/tweets/show.html"
+    erb :"/tweets/show_tweet"
   end
 
   # GET: /tweets/5/edit
   get "/tweets/:id/edit" do
-    erb :"/tweets/edit.html"
+    erb :"/tweets/edit_tweet"
   end
 
   # PATCH: /tweets/5
