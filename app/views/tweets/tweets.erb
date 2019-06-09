@@ -1,0 +1,10 @@
+<h1>Welcome, <%= @user.username %></h1>
+
+<% Tweet.all.each do |element| %>
+  <p><%= element.user.username %></p>
+  <p><%= element.content %></p>
+<% end %>
+
+<form method="POST" action="/tweets/new">
+  <p>Click "New Tweet" for create a new tweet <input type="submit" id="submit" value="New Tweet"></p>
+</form>
