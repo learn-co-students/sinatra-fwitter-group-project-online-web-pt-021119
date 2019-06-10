@@ -1,0 +1,6 @@
+<h2> Here are your tweets, <%= @user.username %></h2>
+<ol>
+  <% @user.tweets.each do |tweet| %>
+    <li><%=tweet.content%> (ID:<%=tweet.id%>)</li>
+  <% end %>
+</ol>
