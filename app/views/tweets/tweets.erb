@@ -3,3 +3,15 @@
 <p>
   <a href="/logout">Logout</a>
 </p>
+<p>
+  <a href="/tweets/new">New tweet</a>
+</p>
+
+<% @tweets.each do |tweet| %>
+<hr>
+<label>
+  <strong>[<%= "#{tweet.user.username}##{tweet.user.id}" %>]:</strong>
+</label>
+<label><%= "#{tweet.content}" %> </label>
+<br>
+<% end %>

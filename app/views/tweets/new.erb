@@ -1,1 +1,8 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<h1>New Tweet from <%= @user.username %></h1>
+
+<form action="/tweets" method="post">
+  <p>
+    <input id="content" type="textarea" name="content" placeholder="Enter your fweet here." size="100">
+    <input type="submit" id="submit" value="Create tweet">
+  </p>
+</form>
