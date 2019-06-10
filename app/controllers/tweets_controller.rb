@@ -5,7 +5,7 @@ class TweetsController < ApplicationController
   get "/tweets" do
     if logged_in?
       @user = User.find(session[:user_id])
-      @tweets = Tweet.all
+      @tweets = Tweet.all.reverse
     else
       redirect '/login'
     end
@@ -22,14 +22,17 @@ class TweetsController < ApplicationController
 
   # POST: /tweets
   post "/tweets" do
-
-
-    user = User.find_by(session[:user_id])
-    tweet = Tweet.create(params)
-    tweet.user = user
-    tweet.save
-    # redirect "/tweets/:#{tweet.id}"
-    redirect "/tweets"
+    if params[:content].empty?
+      flash[:notice] = "Can't submit an empty tweet!"
+      redirect "/tweets/new"
+    else
+      user = User.find_by(session[:user_id])
+      tweet = Tweet.create(params)
+      tweet.user = user
+      tweet.save
+      # redirect "/tweets/:#{tweet.id}"
+      redirect "/tweets"
+    end
   end
 
   # GET: /tweets/5
