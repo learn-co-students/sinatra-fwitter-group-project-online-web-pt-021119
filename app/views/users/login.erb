@@ -1,4 +1,7 @@
 <h1>Login</h1>
+<% if flash.has?(:notice) %>
+  <strong><%= flash[:notice] %></strong>
+<% end %>
 
 <form action="/login" method="post">
     <p>

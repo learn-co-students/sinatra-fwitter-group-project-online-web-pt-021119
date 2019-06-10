@@ -7,6 +7,7 @@ class TweetsController < ApplicationController
       @user = User.find(session[:user_id])
       @tweets = Tweet.all.reverse
     else
+      flash[:notice] = "You need to be logged in to access this page."
       redirect '/login'
     end
 
@@ -15,7 +16,12 @@ class TweetsController < ApplicationController
 
   # GET: /tweets/new
   get "/tweets/new" do
-    @user = User.find(session[:user_id])
+    if logged_in?
+      @user = User.find(session[:user_id])
+    else
+      flash[:notice] = "You need to be logged in to access this page."
+      redirect '/login'
+    end
 
     erb :"/tweets/new"
   end

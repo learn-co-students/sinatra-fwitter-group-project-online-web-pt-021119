@@ -11,6 +11,7 @@ class UsersController < ApplicationController
 
   post '/signup' do
     if params[:username] == "" || params[:email] == "" || params[:password] == ""
+      flash[:notice] = "Don't leave anything empty."
       redirect '/signup'
     else
       @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
@@ -21,6 +22,7 @@ class UsersController < ApplicationController
 
   get '/login' do
     if !logged_in?
+      flash[:notice] = "You need to be logged in to access this page."
       erb :'users/login'
     else
       redirect '/tweets'
@@ -33,7 +35,8 @@ class UsersController < ApplicationController
       session[:user_id] = user.id
       redirect "/tweets"
     else
-      redirect to '/signup'
+      flash[:notice] = "Something went wrong. Try again?"
+      redirect to '/login'
     end
   end
 
