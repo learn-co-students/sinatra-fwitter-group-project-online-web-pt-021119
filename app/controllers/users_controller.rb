@@ -1,44 +1,44 @@
 class UsersController < ApplicationController
 
-  def logged_in?
-    true if !params[:user_id].nil?
-  end
-
-  def current_user
-    User.find(params[:user_id])
-  end
-
   get "/signup" do
+    if logged_in?
+      redirect '/tweets'
+    end
+
     erb :"/users/create_user"
   end
 
   post '/signup' do
-    user = User.new(:username => params[:username], :password => params[:password])
-
-    if user.save
-      redirect "/login"
+    if params[:username] == "" || params[:email] == "" || params[:password] == ""
+      redirect '/signup'
     else
-      redirect "/signup"
+      @user = User.create(:username => params[:username], :email => params[:email], :password => params[:password])
+      session[:user_id] = @user.id
+      redirect '/tweets'
     end
   end
 
   get '/login' do
-    erb :"/users/login"
+    if !logged_in?
+      erb :'users/login'
+    else
+      redirect '/tweets'
+    end
   end
 
   post '/login' do
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      redirect "/users/#{user.id}"
+      redirect "/tweets"
     else
-      redirect "/login"
+      redirect to '/signup'
     end
   end
 
   get '/logout' do
-    session[:user_id].clear
-    redirect "/"
+    session.clear
+    redirect "/login"
   end
 
   # GET: /users/5

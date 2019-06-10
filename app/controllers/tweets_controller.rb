@@ -2,6 +2,13 @@ class TweetsController < ApplicationController
 
   # GET: /tweets
   get "/tweets" do
+    if logged_in?
+      @user = User.find(session[:user_id])
+      @tweets = @user.tweets
+    else
+      redirect '/login'
+    end
+    
     erb :"/tweets/tweets"
   end
 
