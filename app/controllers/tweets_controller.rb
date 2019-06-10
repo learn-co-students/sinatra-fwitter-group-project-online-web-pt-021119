@@ -1,4 +1,5 @@
 class TweetsController < ApplicationController
+  use Rack::Flash
 
   # GET: /tweets
   get "/tweets" do
