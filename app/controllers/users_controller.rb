@@ -41,15 +41,13 @@ class UsersController < ApplicationController
     redirect "/login"
   end
 
-  # GET: /users/5
-  get "/users/:id" do
-    @user = User.find(params[:id])
+  get "/users/:slug" do
+    @user = User.find_by_slug(params[:slug])
     erb :"/users/show"
   end
 
-  # DELETE: /users/5/delete
-  delete "/users/:id/delete" do
-    @user = User.find(params[:id])
+  delete "/users/:slug/delete" do
+    @user = User.find_by_slug(params[:slug])
     @user.destroy
     redirect "/"
   end
