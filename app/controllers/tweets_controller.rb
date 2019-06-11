@@ -73,11 +73,16 @@ class TweetsController < ApplicationController
   # PATCH: /tweets/5
   patch "/tweets/:id" do
     @tweet = Tweet.find(params[:id])
-    if @tweet.update(content: params[:content])
-      redirect "/tweets/#{@tweet.id}"
-    else
-      flash[:notice] = "Something went wrong. Try again?"
+    if params[:content].empty?
+      flash[:notice] = "Can't leave your tweet empty. Mind filling that in?"
       redirect "/tweets/#{@tweet.id}/edit"
+    else
+      if @tweet.update(content: params[:content])
+        redirect "/tweets/#{@tweet.id}"
+      else
+        flash[:notice] = "Something went wrong. Try again?"
+        redirect "/tweets/#{@tweet.id}/edit"
+      end
     end
   end
 
