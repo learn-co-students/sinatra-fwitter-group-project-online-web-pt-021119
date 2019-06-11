@@ -35,7 +35,6 @@ class TweetsController < ApplicationController
       user = User.find_by_id(session[:user_id])
       tweet = Tweet.create(params)
       tweet.user = user
-      binding.pry
       tweet.save
       # redirect "/tweets/:#{tweet.id}"
       redirect "/tweets"
@@ -44,33 +43,53 @@ class TweetsController < ApplicationController
 
   # GET: /tweets/5
   get "/tweets/:id" do
-    @tweet = Tweet.find(params[:id])
-    @user = @tweet.user
-    erb :"/tweets/show_tweet"
+    if logged_in?
+      @tweet = Tweet.find(params[:id])
+      @user = @tweet.user
+      erb :"/tweets/show_tweet"
+    else
+      flash[:notice] = "You need to be logged in to access this page."
+      redirect '/login'
+    end
   end
 
   # GET: /tweets/5/edit
   get "/tweets/:id/edit" do
-    @tweet = Tweet.find(params[:id])
-    @user = @tweet.user
-    erb :"/tweets/edit_tweet"
+    if logged_in?
+      if Tweet.find(params[:id]).user.id == session[:user_id]
+        @tweet = Tweet.find(params[:id])
+        @user = @tweet.user
+        erb :"/tweets/edit_tweet"
+      else
+        flash[:notice] = "You may only edit your own tweets."
+        redirect '/tweets'
+      end
+    else
+      flash[:notice] = "You need to be logged in to access this page."
+      redirect '/login'
+    end
   end
 
   # PATCH: /tweets/5
   patch "/tweets/:id" do
     @tweet = Tweet.find(params[:id])
-    if @tweet.update(params)
-      redirect "/tweets/:id"
+    if @tweet.update(content: params[:content])
+      redirect "/tweets/#{@tweet.id}"
     else
       flash[:notice] = "Something went wrong. Try again?"
-      redirect "/tweets/:id/edit"
+      redirect "/tweets/#{@tweet.id}/edit"
     end
   end
 
   # DELETE: /tweets/5/delete
   delete "/tweets/:id/delete" do
-    @tweet = Tweet.find(params[:id])
-    @tweet.destroy
-    redirect "/tweets"
+    if Tweet.find(params[:id]).user.id == session[:user_id]
+      @tweet = Tweet.find(params[:id])
+      @tweet.destroy
+      redirect "/tweets"
+    else
+      flash[:notice] = "You may only delete your own tweets."
+      redirect '/tweets'
+    end
   end
 end

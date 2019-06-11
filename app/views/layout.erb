@@ -7,6 +7,10 @@
 
     <div class="container">
       <h1>Welcome to Fwitter!</h1>
+      <% if flash.has?(:notice) %>
+        <p><strong><%= flash[:notice] %></strong></p>
+      <% end %>
+      
       <%= yield %>
     </div>
 

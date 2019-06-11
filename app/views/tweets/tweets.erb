@@ -12,6 +12,9 @@
 <label>
   <strong>[<%= "#{tweet.user.username}##{tweet.user.id}" %>]:</strong>
 </label>
-<label><%= "#{tweet.content} (#{tweet.id})" %> </label>
+<label>
+  <%= "#{tweet.content} "%>
+  <a href="/tweets/<%= "#{tweet.id}" %>"><%=  "(#{tweet.id})" %></a>
+</label>
 <br>
 <% end %>
