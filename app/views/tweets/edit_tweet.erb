@@ -1,1 +1,11 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<h1>Edit Tweet #<%= @tweet.id %> by <%= @user.username %></h1>
+
+<% if flash.has?(:notice) %>
+  <strong><%= flash[:notice] %></strong>
+<% end %>
+
+<form action="/tweets/<%=@tweet.id%>/edit" method="post">
+  <input type="hidden" name="_method" value="patch">
+  <input type="text" name="content" value="<%=@tweet.content%>" size="100">
+  <input type="submit" id="submit" value="Edit Tweet">
+</form>

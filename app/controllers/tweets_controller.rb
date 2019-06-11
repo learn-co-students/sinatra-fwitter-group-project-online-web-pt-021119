@@ -32,9 +32,10 @@ class TweetsController < ApplicationController
       flash[:notice] = "Can't submit an empty tweet!"
       redirect "/tweets/new"
     else
-      user = User.find_by(session[:user_id])
+      user = User.find_by_id(session[:user_id])
       tweet = Tweet.create(params)
       tweet.user = user
+      binding.pry
       tweet.save
       # redirect "/tweets/:#{tweet.id}"
       redirect "/tweets"
@@ -43,21 +44,33 @@ class TweetsController < ApplicationController
 
   # GET: /tweets/5
   get "/tweets/:id" do
+    @tweet = Tweet.find(params[:id])
+    @user = @tweet.user
     erb :"/tweets/show_tweet"
   end
 
   # GET: /tweets/5/edit
   get "/tweets/:id/edit" do
+    @tweet = Tweet.find(params[:id])
+    @user = @tweet.user
     erb :"/tweets/edit_tweet"
   end
 
   # PATCH: /tweets/5
   patch "/tweets/:id" do
-    redirect "/tweets/:id"
+    @tweet = Tweet.find(params[:id])
+    if @tweet.update(params)
+      redirect "/tweets/:id"
+    else
+      flash[:notice] = "Something went wrong. Try again?"
+      redirect "/tweets/:id/edit"
+    end
   end
 
   # DELETE: /tweets/5/delete
   delete "/tweets/:id/delete" do
+    @tweet = Tweet.find(params[:id])
+    @tweet.destroy
     redirect "/tweets"
   end
 end
