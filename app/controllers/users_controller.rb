@@ -4,17 +4,17 @@ class UsersController < ApplicationController
     if !logged_in?
       erb :'users/create_user'
     else
-      redirect to '/tweets'
+      redirect to '/tweets/tweets'
     end
   end
 
   post '/signup' do
     if params[:username].empty? || params[:email].empty? || params[:password].empty?
-       @user = User.create(params)
-       session[:user_id] = @user.id
-       redirect to '/tweets'
+       redirect to '/signup'
     else
-        redirect to '/signup'
+      @user = User.create(params)
+      session[:user_id] = @user.id
+      redirect to '/tweets/tweets'
    end
   end
 
