@@ -10,6 +10,7 @@ class Helpers
       true
     else
       false
+    end
   end
 
 end
