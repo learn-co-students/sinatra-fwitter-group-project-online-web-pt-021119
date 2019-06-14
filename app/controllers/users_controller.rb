@@ -32,7 +32,9 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    session.clear
+    if !Helpers.logged_in?(session)
+      session.clear
+    end
     redirect '/'
   end
 
