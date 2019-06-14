@@ -10,4 +10,8 @@ class ApplicationController < Sinatra::Base
   get '/' do
     erb :index
   end
+
+  # Helpers current_user and logged_in?
+  # NO ACCESS UNLESS LOGGED IN
+
 end
