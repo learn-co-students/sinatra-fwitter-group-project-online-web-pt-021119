@@ -7,18 +7,18 @@
 
     <div class="container">
       <h1>Welcome to Fwitter!</h1>
-      </div>
-    <%= yield %>
+      <div><%= yield %></div>
+    
 
     <% if logged_in? %>
       <p>Welcome, <%=current_user.username %></p>
       <p><a href="/tweets/new"> Create Tweet </a></p>
       <p><a href="/logout"> Log Out </a></p>
       
+      
     <% else %>
       <p><a href="/signup">Sign Up</a></p>
       <p><a href="/login"> Login </a></p>
-
     <%end %>
 
   </body>

@@ -1,5 +1,10 @@
 class UsersController < ApplicationController
 
+  get '/users/:slug' do
+    user = User.find_by_slug(params[:slug])
+    erb :'users/show'
+  end
+
   get '/signup' do
     if !logged_in?
       erb :'users/create_user'
@@ -30,6 +35,7 @@ class UsersController < ApplicationController
 
 
   post '/login' do
+    #binding.pry
     user = User.find_by(:username => params[:username])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
@@ -40,9 +46,9 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    if logged_in?
+    if logged_in?      
+      session.destroy
       redirect to '/login'
-      session.destroy      
     else
       redirect to '/'
     end
