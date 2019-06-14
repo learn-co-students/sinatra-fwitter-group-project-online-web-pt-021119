@@ -2,6 +2,7 @@ class TweetsController < ApplicationController
 
   get '/tweets' do
     if logged_in?
+      #binding.pry
       @tweets = Tweet.all
       erb :'tweets/tweets'
     else
@@ -77,7 +78,7 @@ class TweetsController < ApplicationController
     if logged_in?
       @tweet = Tweet.find_by_id(params[:id])
       if @tweet && @tweet.user == current_user
-        binding.pry
+        #binding.pry
         @tweet.delete
         redirect to '/tweets'
       else
