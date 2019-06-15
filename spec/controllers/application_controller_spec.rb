@@ -147,7 +147,6 @@ describe ApplicationController do
 
       expect(last_response.body).to include("tweeting!")
       expect(last_response.body).to include("tweet tweet tweet")
-
     end
   end
 

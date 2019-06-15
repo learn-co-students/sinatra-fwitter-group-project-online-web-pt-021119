@@ -1,5 +1,13 @@
+<% if !Helpers.logged_in?(session) %>
+  <%= redirect '/login' %>
+<% end %>
+
 <h2>Welcome, <%= @user.username %></h2>
 
-  <%= @tweets %>
+  <!-- List all tweets for user and allow them to edit -->
+  <% @tweets.each do |tweet| %>
+    <li><%= tweet.content %></li>
+  <% end %>
 
+<a href='/tweets/new'>New Tweet</a><br />
 <a href='/logout'>Logout</a>
