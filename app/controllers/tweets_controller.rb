@@ -6,6 +6,7 @@ class TweetsController < ApplicationController
 
   get '/tweets/:id' do
     @user = User.find_by(id: session[:user_id])
+    @tweets = Tweet.find_by(id: @user.id)
     erb :'/tweets/tweets'
   end
 
