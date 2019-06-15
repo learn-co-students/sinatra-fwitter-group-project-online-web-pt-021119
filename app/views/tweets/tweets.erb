@@ -3,6 +3,7 @@
   <!-- List all tweets for user and allow them to edit -->
   <% @tweets.each do |tweet| %>
     <li><%= tweet.content %></li>
+    
   <% end %>
 
 <a href='/tweets/new'>New Tweet</a><br />
