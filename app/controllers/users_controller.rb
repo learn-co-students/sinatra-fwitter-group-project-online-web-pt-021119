@@ -3,8 +3,13 @@ require 'rack-flash'
 class UsersController < ApplicationController
   use Rack::Flash
 
+  get '/users/:slug' do
+    @user = User.find_by_slug(params[:slug])
+    erb :'users/show'
+  end
+
   get '/signup' do
-    if !Helpers.logged_in?
+    if !logged_in?
       erb :'/users/create_user'
     else
       redirect '/tweets'
@@ -23,7 +28,7 @@ class UsersController < ApplicationController
   end
 
   get '/login' do
-    if !Helpers.logged_in?
+    if !logged_in?
       erb :'/users/login'
     else
       redirect '/tweets'
@@ -41,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   get '/logout' do
-    if Helpers.logged_in?
+    if logged_in?
       session.destroy
       redirect '/login'
     else
