@@ -1,22 +1,25 @@
 require 'rack-flash'
 
 class UsersController < ApplicationController
-  #use Rack::Flash
+  use Rack::Flash
 
   get '/signup' do
-    erb :'/users/create_user'
+    if Helpers.logged_in?(session)
+      redirect '/tweets'
+    else
+      erb :'/users/create_user'
+    end
   end
 
   post '/signup' do
-    params.each do |k, v|
-      if params[k].nil?
-
-      end
+    if params[:username] == "" || params[:email] == "" || params[:password] == ""
+      redirect '/signup'
+    else
+      @user = User.create(username: params["username"], email: params["email"], password: params["password"])
+      @user.save
+      session[:user_id] = @user.id
+      redirect "/tweets/#{@user.id}"
     end
-    @user = User.create(username: params[:username], email: params[:email], password: params[:password])
-
-    @user.save
-    redirect "/tweets"
   end
 
   get '/login' do
@@ -27,15 +30,17 @@ class UsersController < ApplicationController
 
   post '/login' do
     @user = User.find_by(username: params[:username])
-    sessions[:user_id] = @user.id
-    redirect '/tweets/tweets'
+    session[:user_id] = @user.id
+    redirect '/tweets'
   end
 
   get '/logout' do
-    if !Helpers.logged_in?(session)
+    if Helpers.logged_in?(session)
       session.clear
+      redirect '/'
+    else
+      redirect '/login'
     end
-    redirect '/'
   end
 
 end

@@ -5,7 +5,8 @@ class TweetsController < ApplicationController
   end
 
   get '/tweets/:id' do
-    erb :'/tweets/show'
+    @user = User.find_by(id: session[:user_id])
+    erb :'/tweets/tweets'
   end
 
   get '/tweets/:id/edit' do
