@@ -12,11 +12,12 @@ post '/signup' do
   end
   @user = User.new(username: params[:username], email: params[:email], password: params[:password])
   if @user.save
-		redirect "/login"
+    session[:user_id] = @user.id
+    redirect "/tweets"
 	else
-		redirect "/signup_error"
+    redirect "/signup_error"
 	end
-
+  redirect "/signup_error"
 end
 
 get '/login' do
@@ -25,18 +26,18 @@ get '/login' do
 end
 
 post '/login' do
-  @user = User.find_by(username: params[:username], password: params[:password])
-  if @user != nil
+  @user = User.find_by(username: params[:username])
+  if @user && @user.authenticate(params[:password])
     session[:user_id] = @user.id
     redirect "/tweets"
   else
-    erb :error
+    erb :"users/error"
   end
 end
 
 get '/logout' do
   session.clear
-  redirect "users/login"
+  redirect "/login"
 end
 # user signup get /signup
 
