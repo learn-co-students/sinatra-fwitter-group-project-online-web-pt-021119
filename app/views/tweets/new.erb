@@ -1,4 +1,4 @@
-<% #redirect "/error" if !Helpers.is_logged_in?(session) %>
+<% redirect "/error" if !Helpers.is_logged_in?(session) %>
 
   <form action='/tweets' method="post">
     Content:
