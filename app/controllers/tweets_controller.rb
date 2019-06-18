@@ -7,14 +7,18 @@ end
 
 post "/tweets" do
   @user = User.find_by(params[:id])
-  @tweet = Tweet.create(content: params[:content], user_id: @user.id)
+  if params[:content].empty?
+    redirect "/tweets/new"
+  else
+    @tweet = Tweet.create(content: params[:content], user_id: @user.id)
+  end
   redirect "/tweets/#{@tweet.id}"
 end
 
 get "/tweets" do
   redirect "/login" if !Helpers.is_logged_in?(session)
   @user = User.find_by(params[:id])
-  @tweets = Tweet.where(user_id: session[:user_id])
+  @tweets = Tweet.all
   erb :"tweets/tweets"
 end
 
@@ -36,14 +40,19 @@ end
 
 patch "/tweets/:id" do
   @tweet = Tweet.find_by_id(params[:id])
-  @tweet.content = params[:content]
-  @tweet.save
+  if params[:content].empty?
+    redirect "/tweets/#{@tweet.id}/edit"
+  elsif
+    @tweet.content = params[:content]
+    @tweet.save
+  end
   redirect "/tweets/#{@tweet.id}"
 end
 
 delete "/tweets/:id" do
+  @user = User.find_by(params[:id])
   @tweet = Tweet.find_by_id(params[:id])
-  @tweet.delete
+  @tweet.delete if @tweet.user_id == session[:user_id]
   redirect "/tweets"
 end
 #create tweet form get /tweets/new

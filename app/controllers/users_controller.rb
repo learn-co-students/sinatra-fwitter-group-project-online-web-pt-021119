@@ -38,17 +38,18 @@ end
 
 get "/users/:username" do
   @user = User.find_by(username: params[:username])
-  erb :"tweets/tweets"  
+  erb :"tweets/tweets"
 end
 
 get '/logout' do
-
-  erb :"users/logout"
+  # erb :"users/logout"
+  session.clear
+  redirect '/login'
 end
 
 post '/logout' do
   session.clear
-  redirect "/login"
+  redirect '/login'
 end
 # user signup get /signup
 

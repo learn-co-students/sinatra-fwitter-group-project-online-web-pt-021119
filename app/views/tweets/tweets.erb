@@ -7,9 +7,12 @@
   <% if @tweets.empty? %>
     <p>There are no tweets in the database</p>
   <% else %>
+    <ul>
+
     <% @tweets.each do |t| %>
-      <p><%= t.content %> <a href="/tweets/<%=t.id%>"> View </a><a href="/tweets/<%=t.id%>/edit"> Edit </a></p>
+      <li><%= t.content %> <a href="/tweets/<%=t.id%>"> View </a><a href="/tweets/<%=t.id%>/edit"> Edit </a></li>
     <% end %>
+    </ul>
   <% end %>
 
 </body>
