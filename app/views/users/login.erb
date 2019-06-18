@@ -1,0 +1,13 @@
+<%redirect "/tweets" if Helpers.is_logged_in?(session)%>
+
+<body id="page-top">
+  <h3>Log In Please</h3>
+  <form class="" action="/login" method="post">
+    <label for="">Username: </label>
+    <input type="text" name="username" value=""><br>
+    <label for="">Password: </label>
+    <input type="password" name="password" value=""><br>
+    <br>
+    <input id="submit" type="submit" name="" value="LOG IN"> or <a href="/signup">Sign Up</a>
+  </form>
+</body>

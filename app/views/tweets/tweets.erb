@@ -1,0 +1,18 @@
+<body>
+
+  <h3> Welcome, <%= @user.username %> </h3>
+
+  <a href="/tweets/new">Post a new tweet</a>
+
+  <% if @tweets.empty? %>
+    <p>There are no tweets in the database</p>
+  <% else %>
+    <ul>
+
+    <% @tweets.each do |t| %>
+      <li><%= t.content %> <a href="/tweets/<%=t.id%>"> View </a><a href="/tweets/<%=t.id%>/edit"> Edit </a></li>
+    <% end %>
+    </ul>
+  <% end %>
+
+</body>
