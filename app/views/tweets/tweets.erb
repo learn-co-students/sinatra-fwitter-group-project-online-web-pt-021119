@@ -1,3 +1,15 @@
-This is the tweets page
+<body>
 
-<a href="/tweets/new">Post a new tweet</a>
+  <h3> Welcome, <%= @user.username %> </h3>
+
+  <a href="/tweets/new">Post a new tweet</a>
+
+  <% if @tweets.empty? %>
+    <p>There are no tweets in the database</p>
+  <% else %>
+    <% @tweets.each do |t| %>
+      <p><%= t.content %> <a href="/tweets/<%=t.id%>"> View </a><a href="/tweets/<%=t.id%>/edit"> Edit </a></p>
+    <% end %>
+  <% end %>
+
+</body>

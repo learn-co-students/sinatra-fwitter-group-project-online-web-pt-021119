@@ -1,4 +1,6 @@
+<%redirect "/" if !Helpers.is_logged_in?(session)%>
+
 <form action="/logout" method="post">
   Logout?
-  <input type="submit" name="logout" >
+  <input id="submit" type="submit" name="logout" >
 </form>
