@@ -8,4 +8,13 @@ class TweetsController < ApplicationController
       redirect '/login'
     end
   end
+
+  get '/tweets/new' do
+    if is_logged_in?
+      session[:user_id] = user.id
+      erb :'tweets/new'
+    else
+      redirect '/login'
+    end
+  end
 end

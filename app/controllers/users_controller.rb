@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
 
 
+  get '/users/:slug' do
+
+    erb :'/users/show'
+  end
+
 
   get '/signup' do
     if !is_logged_in?
