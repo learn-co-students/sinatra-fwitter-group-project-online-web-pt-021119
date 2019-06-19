@@ -16,8 +16,8 @@ class UsersController < ApplicationController
 
       redirect '/signup'
     else
-      user = User.create(params)
-      session[:user_id] = user.id
+      @user = User.create(params)
+      session[:user_id] = @user.id
       redirect '/tweets'
     end
   end
@@ -42,7 +42,7 @@ class UsersController < ApplicationController
 
   get '/logout' do
     if !is_logged_in?
-      redirect '/signup'
+      redirect '/login'
     else
       session.clear
       redirect '/login'
