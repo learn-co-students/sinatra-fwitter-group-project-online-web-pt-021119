@@ -21,8 +21,8 @@ class UsersController < ApplicationController
 
       redirect '/signup'
     else
-      @user = User.create(params)
-      session[:user_id] = @user.id
+      user = User.create(params)
+      session[:user_id] = user.id
       redirect '/tweets'
     end
   end
