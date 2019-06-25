@@ -6,4 +6,4 @@ class CreateTweetsTable < ActiveRecord::Migration
   
       end
     end
-  ends
+  end
